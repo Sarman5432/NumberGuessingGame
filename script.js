@@ -18,7 +18,7 @@ submitBtn.addEventListener('click', function () {
         firstClick = false
     }
     guess = textbox.value;
-    prevGuess.textContent = prevGuess.textContent + ' ' + guess
+    prevGuess.textContent += ' ' + guess
     gameBox.append(prevGuess);
     count++;
 
@@ -40,8 +40,9 @@ function compareAnswer(){
     });
     
     if(count===10){
-        endResult.textContent = '!!!!GAME OVER!!!!'
-        hint.textContent = ''
+        endResult.textContent = '!!!!GAME OVER!!!!';
+        hint.textContent = '';
+        playAgain();
     }else{
         if(guess < answer){
             endResult.textContent = 'Wrong!'
@@ -54,9 +55,9 @@ function compareAnswer(){
             setStylesOnElement(endResult, {
                 backgroundColor: "green",
                 color: "white",
-                padding: "5px"
+                padding: "5px",
             });
-            hint.textContent = ''
+            hint.textContent = '';
         }else{
             endResult.textContent = 'Wrong!'
             hint.textContent = 'Error: please enter a number'
@@ -65,8 +66,27 @@ function compareAnswer(){
 
     gameBox.append(endResult);
     gameBox.append(hint);
+    if(guess==answer){
+        playAgain();
+    }
 }
 
 const setStylesOnElement = (element, styles) => {
     Object.assign(element.style, styles)
+}
+
+const playAgain = () => {
+    var restart = document.createElement('button');
+    restart.textContent = "Play Again"
+    gameBox.append(restart);
+
+    restart.addEventListener('click', function(){
+        firstClick = true;
+        count=0;
+        answer = Math.floor(Math.random()*100) + 1;
+        gameBox.removeChild(endResult);
+        gameBox.removeChild(hint);
+        gameBox.removeChild(prevGuess);
+        gameBox.removeChild(restart);
+    });
 }
