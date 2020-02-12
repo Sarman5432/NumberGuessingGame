@@ -3,13 +3,13 @@ var textbox = document.querySelector('#textbox')
 var submitBtn = document.querySelector('#submit')
 var prevGuess = document.createElement('p')
 var endResult = document.createElement('p');
-var hint = document.createElement('p');
+var hint = Object.assign(document.createElement('p'), {id:"hint"});
 
 var firstClick = true;
 var count = 0;
 var guess;
 
-var answer = parseInt(Math.random()*100);
+var answer = Math.floor(Math.random()*100) + 1; //random number between 1-100
 
 submitBtn.addEventListener('click', function () {
     if (firstClick) {
@@ -33,7 +33,11 @@ submitBtn.addEventListener('click', function () {
 });
 
 function compareAnswer(){
-    endResult.style.backgroundColor = "red"
+    setStylesOnElement(endResult, {
+        backgroundColor: "green",
+        color: "white",
+        padding: "5px"
+    });
     
     if(count===10){
         endResult.textContent = '!!!!GAME OVER!!!!'
@@ -47,15 +51,11 @@ function compareAnswer(){
             hint.textContent = 'Last guess was too high'
         }else if(guess == answer){
             endResult.textContent = 'Congratulations! You got it right!'
-            /*
             setStylesOnElement(endResult, {
-                backgroundColor = "green",
-                color: "white"
+                backgroundColor: "green",
+                color: "white",
+                padding: "5px"
             });
-            */
-            endResult.style.backgroundColor = "green"
-            endResult.style.color = "white"
-            
             hint.textContent = ''
         }else{
             endResult.textContent = 'Wrong!'
